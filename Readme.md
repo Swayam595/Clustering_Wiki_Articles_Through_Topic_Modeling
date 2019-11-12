@@ -22,3 +22,7 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 ### Text Analysis
 
 ### Evaluation (Graph Analysis)
+[Power Iteration Clustering](https://spark.apache.org/docs/latest/mllib-clustering.html#power-iteration-clustering-pic)
+- PIC is a graph clustering algorithm which uses **Affinity matrix** as input and returns clusters based on their similarities.
+- Affinity matrix is such that it **`A(ij) = sim(i,j)`**. Where i and j are any two nodes and sim is the similarity between them.
+- Graph with simialrities between each pair of nodes as weights on the edge is used for clustering the Graph using PIC.
