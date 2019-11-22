@@ -17,11 +17,11 @@ from pyspark.sql.functions import *
 # Initialization of variables and spark contexts
 
 base_folder = os.path.abspath("..")
-raw_data_folder = base_folder + "data/"
-preprocessed_data_folder = base_folder + "preprocessed/"
+raw_data_folder = os.path.join(base_folder, "data/")
+preprocessed_data_folder = os.path.join(base_folder, "preprocessed/")
 
 page_file_name = "enwiki-20191101-page.sql"
-page_file = raw_data_folder + page_file_name
+page_file = os.path.join(raw_data_folder, page_file_name)
 page_file_columns = ["page_id", "page_namespace", "page_title", "page_restrictions", 
                      "page_is_redirect", "page_is_new", "page_random", "page_touched", 
                      "page_links_updated", "page_latest", "page_len", "page_content_model", 
@@ -30,7 +30,7 @@ page_file_columns = ["page_id", "page_namespace", "page_title", "page_restrictio
 # page_link_file_name = "enwiki-20191101-pagelinks-50.sql"
 # page_link_file_name = "enwiki-20191101-pagelinks-5000.sql"
 page_link_file_name = "enwiki-20191101-pagelinks.sql"
-page_link_file = raw_data_folder + page_link_file_name
+page_link_file = os.path.join(raw_data_folder, page_link_file_name)
 page_link_file_columns = ["pl_from", "pl_namespace", "pl_title", "pl_from_namespace"]
 
 sc = SparkContext()
@@ -231,28 +231,28 @@ adjacency_list_df = adjacency_list_df.toPandas()
 adjacency_list_df.to_csv(preprocessed_data_folder + 'adjacency_list.csv')
 
 # Create Adjacency Matrix
-print("Adjacency Matrix: ")
-adjacency_matrix_df = pd.crosstab(from_page_ids_data_pd_df.from_page_id, from_page_ids_data_pd_df.to_page_id)
-idx = adjacency_matrix_df.columns.union(adjacency_matrix_df.index)
-adjacency_matrix_df = adjacency_matrix_df.reindex(index = idx, columns=idx, fill_value=0)
+# print("Adjacency Matrix: ")
+# adjacency_matrix_df = pd.crosstab(from_page_ids_data_pd_df.from_page_id, from_page_ids_data_pd_df.to_page_id)
+# idx = adjacency_matrix_df.columns.union(adjacency_matrix_df.index)
+# adjacency_matrix_df = adjacency_matrix_df.reindex(index = idx, columns=idx, fill_value=0)
 
 
-try:
-    zero_cols = adjacency_matrix_df.loc[:, (adjacency_matrix_df == 0).all(axis=0)].columns.values.tolist()
-    zero_rows = adjacency_matrix_df.loc[(adjacency_matrix_df == 0).all(axis=1)].index.values.tolist()
-    to_drop = list(set(zero_cols).intersection(zero_rows))
+# try:
+#     zero_cols = adjacency_matrix_df.loc[:, (adjacency_matrix_df == 0).all(axis=0)].columns.values.tolist()
+#     zero_rows = adjacency_matrix_df.loc[(adjacency_matrix_df == 0).all(axis=1)].index.values.tolist()
+#     to_drop = list(set(zero_cols).intersection(zero_rows))
 
-    print("Dropping {} rows and columns".format(str(len(to_drop))))
+#     print("Dropping {} rows and columns".format(str(len(to_drop))))
 
-    adjacency_matrix_df = adjacency_matrix_df.drop(to_drop)
-    adjacency_matrix_df = adjacency_matrix_df.drop(to_drop, axis=1)
-    adjacency_matrix_df.to_csv(preprocessed_data_folder + 'adjacency_matrix_reduced.csv')
+#     adjacency_matrix_df = adjacency_matrix_df.drop(to_drop)
+#     adjacency_matrix_df = adjacency_matrix_df.drop(to_drop, axis=1)
+#     adjacency_matrix_df.to_csv(preprocessed_data_folder + 'adjacency_matrix_reduced.csv')
 
-except:
-    print("Dropping rows and columns failed!")
-    pass
+# except:
+#     print("Dropping rows and columns failed!")
+#     pass
 
-adjacency_matrix_df.head(20)
-adjacency_matrix_df.to_csv(preprocessed_data_folder + 'adjacency_matrix.csv')
+# adjacency_matrix_df.head(20)
+# adjacency_matrix_df.to_csv(preprocessed_data_folder + 'adjacency_matrix.csv')
 print("Done")
 
