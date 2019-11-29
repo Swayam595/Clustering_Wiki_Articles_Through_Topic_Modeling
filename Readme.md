@@ -11,9 +11,9 @@ head -n 50 enwiki-20191101-pagelinks.sql > enwiki-20191101-pagelinks-50.sql
 
 #### To submit jobs, use the below configuration:
 ```
-sbatch slurm-spark-submit.sh --conf "spark.driver.memory=100g" --conf "spark.executor.memory=30g" --conf "spark.driver.maxResultSize=100g" --conf "spark.network.timeout=10000001" --conf "spark.executor.heartbeatInterval=10000000" --conf "spark.mesos.executor.memoryOverhead=600" extract_wiki_page_data.py
+sbatch slurm-spark-submit.sh --conf "spark.driver.memory=20g" --conf "spark.executor.instances=87" --conf "spark.executor.cores=5" --conf "spark.executor.memory=21.5g" --conf "spark.driver.maxResultSize=0" --conf "spark.network.timeout=10000001" --conf "spark.executor.heartbeatInterval=10000000" extract_wiki_page_data.py
 ```
-
+spark.executor.instances = 11(executors per node)*num_nodes - 1 (master)
 
 #### Reference to original gensim script for preprocessing:
 python -m gensim.scripts.segment_wiki -f enwiki-20171001-pages-articles.xml.bz2 -o wiki-en.gz
