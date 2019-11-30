@@ -19,17 +19,9 @@ from pyspark.sql.functions import *
 base_folder = os.path.abspath("..")
 raw_data_folder = os.path.join(base_folder, "data/")
 preprocessed_data_folder = os.path.join(base_folder, "preprocessed/")
+
 adj_graph_data = 'adjacency_graph_data/'
 adj_lists = 'adjacency_lists/'
-#if not os.path.exists(os.path.join(preprocessed_data_folder,adj_graph_data)):
-#    os.makedirs(preprocessed_data_folder + adj_graph_data)
-
-#if not os.path.exists(os.path.join(preprocessed_data_folder,adj_lists)):
-#    os.makedirs(preprocessed_data_folder + adj_lists)
-
-#adj_graph_data_folder = os.path.join( preprocessed_data_folder,adj_graph_data)
-
-#adj_lists_folder = os.path.join(preprocessed_data_folder,adj_lists)
 
 page_file_name = "enwiki-20191101-page.sql"
 page_file = os.path.join(raw_data_folder, page_file_name)
@@ -267,32 +259,32 @@ if create_adj_list == True:
 
 
 # Create Adjacency Matrix
-#create_adj_matrix = False
-#
-#if create_adj_matrix == True:
-#    
-#    print("Adjacency Matrix: ")
-#    adjacency_matrix_df = pd.crosstab(from_page_ids_data_pd_df.from_page_id, from_page_ids_data_pd_df.to_page_id)
-#    idx = adjacency_matrix_df.columns.union(adjacency_matrix_df.index)
-#    adjacency_matrix_df = adjacency_matrix_df.reindex(index = idx, columns=idx, fill_value=0)
-#
-#
-#    try:
-#        zero_cols = adjacency_matrix_df.loc[:, (adjacency_matrix_df == 0).all(axis=0)].columns.values.tolist()
-#        zero_rows = adjacency_matrix_df.loc[(adjacency_matrix_df == 0).all(axis=1)].index.values.tolist()
-#        to_drop = list(set(zero_cols).intersection(zero_rows))
-#
-#        print("Dropping {} rows and columns".format(str(len(to_drop))))
-#
-#        adjacency_matrix_df = adjacency_matrix_df.drop(to_drop)
-#        adjacency_matrix_df = adjacency_matrix_df.drop(to_drop, axis=1)
-#        adjacency_matrix_df.to_csv(preprocessed_data_folder + 'adjacency_matrix_reduced.csv')
-#
-#    except:
-#        print("Dropping rows and columns failed!")
-#        pass
-#
-#    adjacency_matrix_df.head(20)
-#    adjacency_matrix_df.to_csv(preprocessed_data_folder + 'adjacency_matrix.csv')
+create_adj_matrix = False
+
+if create_adj_matrix == True:
+    
+    print("Adjacency Matrix: ")
+    adjacency_matrix_df = pd.crosstab(from_page_ids_data_pd_df.from_page_id, from_page_ids_data_pd_df.to_page_id)
+    idx = adjacency_matrix_df.columns.union(adjacency_matrix_df.index)
+    adjacency_matrix_df = adjacency_matrix_df.reindex(index = idx, columns=idx, fill_value=0)
+
+
+    try:
+        zero_cols = adjacency_matrix_df.loc[:, (adjacency_matrix_df == 0).all(axis=0)].columns.values.tolist()
+        zero_rows = adjacency_matrix_df.loc[(adjacency_matrix_df == 0).all(axis=1)].index.values.tolist()
+        to_drop = list(set(zero_cols).intersection(zero_rows))
+
+        print("Dropping {} rows and columns".format(str(len(to_drop))))
+
+        adjacency_matrix_df = adjacency_matrix_df.drop(to_drop)
+        adjacency_matrix_df = adjacency_matrix_df.drop(to_drop, axis=1)
+        adjacency_matrix_df.to_csv(preprocessed_data_folder + 'adjacency_matrix_reduced.csv')
+
+    except:
+        print("Dropping rows and columns failed!")
+        pass
+
+    adjacency_matrix_df.head(20)
+    adjacency_matrix_df.to_csv(preprocessed_data_folder + 'adjacency_matrix.csv')
 
 print("Done")
