@@ -35,6 +35,7 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 ### Text Analysis
 
 ### Directory Structure
+```
 .
 +-- data
 |   +-- *.sql
@@ -49,6 +50,7 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 +-- results
 |   +-- file_concat-results.sh
 |   +-- clusters_*\
+```
 ### Instructions
 - Download the enwiki-articles XML file from the link above and store it in `data/` directory.
 - Download both sql files and store them in the `data/` directory.
