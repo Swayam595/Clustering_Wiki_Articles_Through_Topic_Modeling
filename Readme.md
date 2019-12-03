@@ -84,7 +84,7 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
     - sbatch lda_modeling_3pass.sh ~/path_to_tfidf_directory ~/path_to_the_directrory_to_save_output
   - Running both the script will take around +4 hours and +11 hours respectively.
   - Both the scripts will save a trained lda model for future implementation in the directory.
-- Total run time LDA modeling and saving the output into a CSV will take around **~1-Day**
+- Total run time LDA modeling and saving the output into a CSV will take around **~1-Day**.
 
 ### Evaluation (Graph Analysis)
 [Power Iteration Clustering](https://spark.apache.org/docs/latest/mllib-clustering.html#power-iteration-clustering-pic)
