@@ -1,5 +1,4 @@
-### For internal reference
-Add all links/implementation details/shared resources here.
+# Clustering Wikipedia articles using LDA topic modeling and graph analysis
 
 ### Preprocessing
 #### Instructions
