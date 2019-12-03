@@ -19,6 +19,7 @@ base_folder = os.path.abspath("..")
 
 # configure lda_results_* folder of choice
 data_folder = os.path.join(base_folder, "results/lda_results_1_pass/")
+# data_folder = os.path.join(base_folder, "results/lda_results_3_pass/")
 
 lda_output_path = os.path.join(data_folder, "lda_model_results.csv")
 wiki_data_path = os.path.join(base_folder, "preprocessed/wiki-data/articles_title.txt")
@@ -90,7 +91,5 @@ for preds in results:
 
     predictions_df = predictions.select("prediction").toPandas()
     predictions_df.to_csv(data_folder + "k_means_lda_clustering_" + str(k) +  ".csv")
-
-    predictions.select("features", "prediction").toPandas().to_csv(data_folder + "k_means_data_" + str(k) +  ".csv")
 
 
