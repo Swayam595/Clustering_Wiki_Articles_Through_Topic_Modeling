@@ -65,6 +65,12 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 - The above script will take ~**1-Day** to run based on the configuration of the job.
 - Make sure you are following same directory structure as our repo.
 
+### LDA Modeling Instructions
+- Download the latest wikipedia article file from https://dumps.wikimedia.org/enwiki/.
+- Run gensim make_wiki on the downloaded file
+  - Python -m gensim.scripts.make_wiki ~/path_ to_downloaded_wiki_dump ~/path_to_the_directrory_save_output
+
+
 ### Evaluation (Graph Analysis)
 [Power Iteration Clustering](https://spark.apache.org/docs/latest/mllib-clustering.html#power-iteration-clustering-pic)
 - PIC is a graph clustering algorithm which uses **Affinity matrix** as input and returns clusters based on their similarities.
