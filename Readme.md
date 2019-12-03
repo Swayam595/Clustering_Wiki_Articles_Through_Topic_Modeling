@@ -1,18 +1,6 @@
 # Clustering Wikipedia articles using LDA topic modeling and graph analysis
 
-### Preprocessing
-#### Instructions
-1) Download, extract and place "enwiki-20191101-page.sql" and "enwiki-20191101-pagelinks.sql" in the "data/" folder
-2) For a sample subset of pagelinks, navigate to the "data/" folder, run the below command, and switch the source file name in the script:
-```
-head -n 50 enwiki-20191101-pagelinks.sql > enwiki-20191101-pagelinks-50.sql
-```
-
-#### To submit jobs, use the below configuration:
-```
-sbatch slurm-spark-submit.sh --conf "spark.driver.memory=100g" --conf "spark.driver.maxResultSize=100g" --conf "spark.network.timeout=10000001" --conf "spark.executor.heartbeatInterval=10000000" extract_wiki_page_data.py
-```
-spark.executor.instances = 11(executors per node)*num_nodes - 1 (master)
+## Data 
 
 #### Reference to original gensim script for preprocessing:
 python -m gensim.scripts.segment_wiki -f enwiki-20171001-pages-articles.xml.bz2 -o wiki-en.gz
@@ -81,8 +69,15 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 - Make sure you are following same directory structure as our repo.
 #### Preprocessing script instructions
 - Download the enwiki-articles XML file from the link above and store it in **`data/`** directory.
+- Command for subset of sql file to consider for graphs.
+  command: ```head -n 50 enwiki-20191101-pagelinks.sql > enwiki-20191101-pagelinks-50.sql```, replace `-50` with the number of lines of   sql the subset should contain.
 - Download both sql files and store them in the **`data/`** directory.
-- Run the extract_wiki_page_data.py script using sbatch command mentioned above.
+- Run the **`extract_wiki_page_data.py`** script using sbatch command mentioned below.
+```
+sbatch slurm-spark-submit.sh --conf "spark.driver.memory=100g" --conf "spark.driver.maxResultSize=100g" --conf "spark.network.timeout=10000001" --conf "spark.executor.heartbeatInterval=10000000" extract_wiki_page_data.py
+```
+> Note: spark.executor.instances = 11(executors per node)*num_nodes - 1 (master)
+
 - The above script will take ~**1-Day** to run based on the configuration of the job.
 - This script may generate multiple csv files, based on the write method chosen (write from Pandas vs write from PySpark Dataframes).     These files can be concatenated using **`python3 shell_caller.py preprocessed`**. The concatenated file will be stored in               **`preprocessed/`** directory as **`adjacency_graph_data.csv`**.
 - Run the **`postprocessing.py`** script to get the **`adjacency_graph_final_data.csv`**, which will be used in the steps that follow.     This script ensures that the surviving nodes are those with LDA data available.
