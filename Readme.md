@@ -72,7 +72,18 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
     - Running this will create the word id text file and tf-idf mm file.
     - The program doesn’t create the meatdata.cpickle file in HPC so we will create the manually in the next step.
   - Run get_wiki_index.sh which takes two inputs one path to the wiki dump and the other is the path of directory where we want to save the outputs.
-
+    - sbatch get_wiki_index.sh ~/path_ to_downloaded_wiki_dump ~/path_to_the_directrory_save output  
+  - After running the following gensim command we will get,
+    - wiki_en_wordids.txt.bz2 - Needs to be decompressed manually.
+    - articles_title.txt - Contains the article name and its index value
+    - wiki_en_tfidf.mm
+  - Creating the all the above files took around 4 hours 50 mins.
+- Run lda_modeling_1pass.sh or lda_modeling_3pass.sh to create the LDA models and generate a csv having documents as index and columns as topics.
+  - Both the script takes two inputs.
+    - sbatch lda_modeling_1pass.sh ~/path_to_tfidfs_directory ~/path_to_the_directrory_save output
+    - sbatch lda_modeling_3pass.sh ~/path_to_tfidfs_directory ~/path_to_the_directrory_save output
+  - Running both the script will take around +4 hours and +11 hours respectively.
+  - Both the scripts will save a trained lda model for future implementation in the directory.
 
 ### Evaluation (Graph Analysis)
 [Power Iteration Clustering](https://spark.apache.org/docs/latest/mllib-clustering.html#power-iteration-clustering-pic)
