@@ -70,7 +70,10 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 #### Preprocessing script instructions
 - Download the enwiki-articles XML file from the link above and store it in **`data/`** directory.
 - Command for subset of sql file to consider for graphs.
-  command: ```head -n 50 enwiki-20191101-pagelinks.sql > enwiki-20191101-pagelinks-50.sql```, replace `-50` with the number of lines of   sql the subset should contain.
+   ```
+  head -n 50 enwiki-20191101-pagelinks.sql > enwiki-20191101-pagelinks-50.sql
+  ``` 
+  > **NOTE:** replace `-50` with the number of lines of   sql the subset should contain.
 - Download both sql files and store them in the **`data/`** directory.
 - Run the **`extract_wiki_page_data.py`** script using sbatch command mentioned below.
 ```
