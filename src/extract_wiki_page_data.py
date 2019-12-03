@@ -20,8 +20,8 @@ base_folder = os.path.abspath("..")
 raw_data_folder = os.path.join(base_folder, "data/")
 preprocessed_data_folder = os.path.join(base_folder, "preprocessed/")
 
-adj_graph_data = 'adjacency_graph_data/'
-adj_lists = 'adjacency_lists/'
+adj_graph_data = os.path.join(preprocessed_data_folder, 'adjacency_graph_data/')
+adj_lists = os.path.join(preprocessed_data_folder, 'adjacency_lists/')
 
 page_file_name = "enwiki-20191101-page.sql"
 page_file = os.path.join(raw_data_folder, page_file_name)
@@ -32,8 +32,8 @@ page_file_columns = ["page_id", "page_namespace", "page_title", "page_restrictio
 
 #page_link_file_name = "enwiki-20191101-pagelinks-50.sql"
 #page_link_file_name = "enwiki-20191101-pagelinks-5000.sql"
-page_link_file_name = "enwiki-20191101-pagelinks-12000.sql"
-#page_link_file_name = "enwiki-20191101-pagelinks.sql"
+# page_link_file_name = "enwiki-20191101-pagelinks-12000.sql"
+page_link_file_name = "enwiki-20191101-pagelinks.sql"
 page_link_file = os.path.join(raw_data_folder, page_link_file_name)
 page_link_file_columns = ["pl_from", "pl_namespace", "pl_title", "pl_from_namespace"]
 
@@ -221,7 +221,7 @@ else:
 page_redirect_mapping =  sc.broadcast(page_redirect_links)
 
 # Remove from_links that are redirects
-page_link_data_df = page_link_data_df.join(page_data, page_link_data_df.pl_from == page_data.page_id)
+page_link_data_df = page_link_data_df.join(page_data, page_link_data_df.pl_from == page_data.page_id, how="inner")
 page_link_data_df = page_link_data_df.drop('index', 'page_id', 'page_title', 'page_len')
 
 # Get all page_ids that go into a link
@@ -242,18 +242,20 @@ from_page_ids_data_df = from_page_ids_data_df.withColumn("to_page_id", from_page
 
 print("Data: " )
 from_page_ids_data_df.printSchema()
-from_page_ids_data_df.coalesce(4).write.csv(preprocessed_data_folder + adj_graph_data, header = 'true')
+from_page_ids_data_df.coalesce(4).write.csv(adj_graph_data, header = 'true')
+
 #from_page_ids_data_pd_df = from_page_ids_data_df.toPandas()
 #from_page_ids_data_pd_df.to_csv(preprocessed_data_folder + 'adjacency_graph_data.csv')
 
 
 # Create Adjacency List
-create_adj_list = True
+create_adj_list = False
 
 if create_adj_list == True:
     print("Adjacency List: ")
-    adjacency_list_df = from_page_ids_data_df.groupBy(["from_page_id"]).agg(collect_list("to_page_id").alias("to_page_id")) #.withColumn("to_page_id", concat_ws(",", col("to_page_id")))
-    adjacency_list_df.coalesce(4).write.csv(preprocessed_data_folder + adj_lists, header = 'true')
+    adjacency_list_df = from_page_ids_data_df.groupBy(["from_page_id"]).agg(collect_list("to_page_id").alias("to_page_id")) 
+    adjacency_list_df.coalesce(4).write.csv(adj_lists, header = 'true')
+    
 #    adjacency_list_df = adjacency_list_df.toPandas()
 #    adjacency_list_df.to_csv(preprocessed_data_folder + 'adjacency_list.csv')
 
