@@ -1,5 +1,6 @@
 import os
 import sys
+import re
 
 
 preprocessed_folder_name = 'preprocessed/'
@@ -35,10 +36,12 @@ elif strat == 'results':
     print("cwd after: "+os.getcwd()+"\n")
     cnt =0
     for x in dirs:
-        os.chdir(results_folder+x)
-        os.system("sh ../file_concat-results.sh")
-        os.chdir(results_folder)
-        cnt+=1
+        if x.startswith("clusters_"):
+            
+            os.chdir(results_folder+x)
+            os.system("sh ../file_concat-results.sh")
+            os.chdir(results_folder)
+            cnt+=1
     print("Done\n")
 else:
     print("Invalid argument\n")
