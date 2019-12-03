@@ -94,7 +94,7 @@ sbatch slurm-spark-submit.sh --conf "spark.driver.memory=100g" --conf "spark.dri
 - Run this script through the postprocessing script to get the final csv that is ready to be trained using PIC clustering. Make sure a     file named **`adjacency_graph_final_data.csv`** is generated in the **`preprocessed/`** directory.
 - Now run the pic_clustering.py script to cluster the graph. This script will generate the clusters csv file and save them to the         directory **`clusters_(number of iterations)/`** directory in multiple csv files.
 - Now run the same **`python3 shell_caller.py results`** to concatenate all the csvs in different clusters directories. The final csvs     generated will follow this naming convention **`final_100-(num_iterations).csv`** ~**4.7 million lines**.
-- To check progress of the pic_clustering job you may use **`grep -n "model created" job_name.log`** -> prints for which num_iterations   the job finished. The time taken by this job is ~**less than 10 hrs**, based on the configuration used. 
+- To check progress of the pic_clustering job you may use **`grep -n "model trained" job_name.log`** -> prints for which num_iterations   the job finished. The time taken by this job is ~**less than 10 hrs**, based on the configuration used. 
 - You have the pic_clusters file ready.
 
 #### Evaluation
