@@ -30,9 +30,6 @@ page_file_columns = ["page_id", "page_namespace", "page_title", "page_restrictio
                      "page_links_updated", "page_latest", "page_len", "page_content_model", 
                      "page_lang"]
 
-#page_link_file_name = "enwiki-20191101-pagelinks-50.sql"
-#page_link_file_name = "enwiki-20191101-pagelinks-5000.sql"
-# page_link_file_name = "enwiki-20191101-pagelinks-12000.sql"
 page_link_file_name = "enwiki-20191101-pagelinks.sql"
 page_link_file = os.path.join(raw_data_folder, page_link_file_name)
 page_link_file_columns = ["pl_from", "pl_namespace", "pl_title", "pl_from_namespace"]
@@ -122,7 +119,6 @@ def GetToPageIds(row, id_name_map, redirect_map):
     r = Row('from_page_ids', 'to_page_id')
     return [[r(page_ids, to_link_id)]]
 
-# In[8]:
 
 page_data_map_df, page_redirect_links = None, None
 
@@ -278,7 +274,6 @@ if create_adj_matrix == True:
 
         print("Dropping {} rows and columns".format(str(len(to_drop))))
 
-        adjacency_matrix_df = adjacency_matrix_df.drop(to_drop)
         adjacency_matrix_df = adjacency_matrix_df.drop(to_drop, axis=1)
         adjacency_matrix_df.to_csv(preprocessed_data_folder + 'adjacency_matrix_reduced.csv')
 
