@@ -65,25 +65,30 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
     +-- slurm*.sh   
 +-- preprocessed
 |   +-- file_concat-graph.sh
-|   +-- all preprocessed files will be stored here
+|   +-- all preprocessed files will be written here
 +-- results
+|   +-- lda_results
+|       +-- lda_model_results.csv (the document-topic file)
+|       +-- lda model data
 |   +-- file_concat-results.sh
 |   +-- clusters_*\
 ```
 ### Instructions
+- Make sure you are following same directory structure as our repo.
 #### Preprocessing script instructions
 - Download the enwiki-articles XML file from the link above and store it in **`data/`** directory.
 - Download both sql files and store them in the **`data/`** directory.
 - Run the extract_wiki_page_data.py script using sbatch command mentioned above.
 - The above script will take ~**1-Day** to run based on the configuration of the job.
-- Make sure you are following same directory structure as our repo.
-- This script will generate multiple csv files. These files can be concatenated using **`python3 shell_caller.py preprocessed`**, the     concatenated file will be stored in preprocessed as **`adjacency_graph_data.csv`**.
+- This script may generate multiple csv files, based on the write method chosen (write from Pandas vs write from PySpark Dataframes). These files can be concatenated using **`python3 shell_caller.py preprocessed`**. The concatenated file will be stored in preprocessed as **`adjacency_graph_data.csv`**.
+- Run the **`postprocessing.py`** script to get the **`adjacency_graph_final_data.csv`**, which will be used in the steps that follow. This script ensures that the surviving nodes are those with LDA data available.
+
 
 #### PIC clustering instructions
 - Run this script through the postprocessing script to get the final csv that is ready to be trained using PIC clustering. Make sure a     file named **`adjacency_graph_final_data.csv`** is generated in the **`preprocessed/`** directory.
 - Now run the pic_clustering.py script to cluster the graph. This script will generate the clusters csv file and save them to the         directory **`clusters_(number of iterations)/`** directory in multiple csv files.
 - Now run the same **`python3 shell_caller.py results`** to concatenate all the csvs in different clusters directories. The final csvs     generated will follow this naming convention **`final_100-(num_iterations).csv`** ~**4.7 million lines**.
-- To check progress of the pic_clustering job you may use **`grep -n "model created" job_name.log`** -> prints for which num_iterations the   job finished. The time taken by this job is ~**less than 10 hrs**, based on the configuration used. 
+- To check progress of the pic_clustering job you may use **`grep -n "model created" job_name.log`** -> prints for which num_iterations the job finished. The time taken by this job is ~**less than 10 hrs**, based on the configuration used. 
 - You have the pic_clusters file ready.
 
 
