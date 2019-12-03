@@ -22,26 +22,26 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 ## Directory Structure
 ```
 .
-+-- __data/__
-|   +-- __*.sql__
-|   +-- __*xml.bz__
-+-- __src/__
-|   +-- __extract_wiki_page_data.py__
-|   +-- __pic_clustering.py__
-|   +-- __clustering_lda_output_data.py__ (configure path to LDA results folder here)
-|   +-- __lda_modeling_*.py/sh__ (scripts that create LDA data)
-|   +-- __slurm*.sh__
-+-- __preprocessed/__
-|   +-- __file_concat-graph.sh__
++-- data/
+|   +-- *.sql
+|   +-- *xml.bz
++-- src/
+|   +-- extract_wiki_page_data.py
+|   +-- pic_clustering.py
+|   +-- clustering_lda_output_data.py (configure path to LDA results folder here)
+|   +-- lda_modeling_*.py/sh (scripts that create LDA data)
+|   +-- slurm*.sh
++-- preprocessed/
+|   +-- file_concat-graph.sh
 |   +-- all preprocessed graph files will be written here
-|   +-- __wiki-data/__
+|   +-- wiki-data/
 |       +-- all preprocessed wikipedia text data will be written here
-+-- __results/__
-|   +-- __file_concat-results.sh__
++-- results/
+|   +-- file_concat-results.sh
 |   +-- lda_results_*/ (create different folders for different LDA configuration results)
 |       +-- lda_model_results.csv (the document-topic file) will be created here
 |       +-- lda model data will be saved here
-|   +-- clusters_*\
+|   +-- clusters_*
 |   +-- pic_clustering_final_results
 |       +-- final power-iteration clustering results go here
 ```
