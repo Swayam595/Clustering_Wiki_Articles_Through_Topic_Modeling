@@ -99,9 +99,7 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 - To check progress of the pic_clustering job you may use **`grep -n "model created" job_name.log`** -> prints for which num_iterations   the job finished. The time taken by this job is ~**less than 10 hrs**, based on the configuration used. 
 - You have the pic_clusters file ready.
 
-
-### Evaluation (Graph Analysis)
-[Power Iteration Clustering](https://spark.apache.org/docs/latest/mllib-clustering.html#power-iteration-clustering-pic)
-- PIC is a graph clustering algorithm which uses **Affinity matrix** as input and returns clusters based on their similarities.
-- Affinity matrix is such that it **`A(ij) = sim(i,j)`**. Where i and j are any two nodes and sim is the similarity between them.
-- Graph with simialrities between each pair of nodes as weights on the edge is used for clustering the Graph using PIC.
+#### Evaluation
+- Evaluation of cluster cohesion using **`silhouette score`**.[[ref]](https://en.wikipedia.org/wiki/Silhouette_(clustering))
+- Silhouette score on LDA clustering: **`0.61 (K = 50 clusters)`**
+- Silhouette score range: -1 to 1 with 1 being the best score.
