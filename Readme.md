@@ -34,8 +34,8 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 +-- preprocessed
 |   +-- file_concat-graph.sh
 |   +-- all preprocessed graph files will be written here
-|       +-- wiki-data
-|           +-- all preprocessed wikipedia text data will be written here
+|   +-- wiki-data
+|       +-- all preprocessed wikipedia text data will be written here
 +-- results
 |   +-- lda_results (create different folders for different LDA configuration results)
 |       +-- lda_model_results.csv (the document-topic file) will be created here
