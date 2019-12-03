@@ -16,13 +16,17 @@ parser.add_argument("-o" , help="Path to the directory to write the output")
 args = parser.parse_args()
 input_file_path = args.i
 output_path = args.o
+output_path = os.path.join(output_path, 'lda_results_mc')
+
+if not os.path.exists(output_path):
+    os.mkdir(output_path)
 
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
-id2word = gensim.corpora.Dictionary.load_from_text(input_file_path + '/wiki_en_wordids.txt')
+id2word = gensim.corpora.Dictionary.load_from_text(os.path.join(input_file_path, 'wiki_en_wordids.txt'))
 
-mm = gensim.corpora.MmCorpus(input_file_path + '/wiki_en_tfidf.mm')
+mm = gensim.corpora.MmCorpus(os.path.join(input_file_path, 'wiki_en_tfidf.mm'))
 
 print (mm)
 
@@ -37,7 +41,7 @@ print ("\n\n<----------- Saving Model Complete ----------->\n\n")
 
 
 try:
-    path = output_path +'/model_1pass'
+    path = os.path.join(output_path, 'lda_model')
     lda.save(path)
 except:
     print ("\n\n<----------- Saving LDA Model failed ----------->\n\n")
@@ -68,7 +72,7 @@ result = result.fillna(0)
 print("\n\n--- Writing pandas took in %s seconds ---" % (time.time() - pandas_write_time))
 print ("\n\n<----------- Writing Article and their topic weight to pandas finished ----------->\n\n")
 
-result.to_csv(output_path + "/articles_topics_5pass_1.csv", index=False)
+result.to_csv(os.path.join(output_path, "lda_model_results.csv"), index=False)
 
 print("\n\n--- Total time took in %s seconds ---" % (time.time() - start_time))
 print ("\n\n<----------- Exiting LDA modeling script ----------->\n\n")

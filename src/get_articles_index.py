@@ -17,18 +17,18 @@ path_to_wiki_dump = datapath(input_file)
 print ("Creating wiki corpous")
 wiki = WikiCorpus(path_to_wiki_dump)
 
-output_fname = get_tmpfile(output_path+"/wiki_en.mm")
+output_fname = get_tmpfile(os.path.join(output_path, "wiki_en.mm"))
 
 print ("Serializing the wiki corpous")
 MmCorpus.serialize(output_fname, wiki, metadata = True)
 
-with open(output_path+"/wiki_en.mm.metadata.cpickle", 'rb') as meta_file:
+with open(os.path.join(output_path, "wiki_en.mm.metadata.cpickle"), 'rb') as meta_file:
     docno2metadata = pickle.load(meta_file)
 
 j = 1
 
 print ("Writing the articles and their IDs into a text file")
-with open(output_path+'/articles_title.txt', 'w') as fp:
+with open(os.path.join(output_path, 'articles_title.txt'), 'w') as fp:
     for i in docno2metadata:
         if j%10000 == 0:
             print ('%s articles and their IDs are fetched'%(j))
