@@ -33,6 +33,25 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pages-articles14.xml
 https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 
 ### Text Analysis
+> - Download the latest wikipedia article file from https://dumps.wikimedia.org/enwiki/.
+> - Run gensim make_wiki on the downloaded file
+>> -Python -m gensim.scripts.make_wiki ~/path_ to_downloaded_wiki_dump                                   ~/path_to_the_directrory_save_output
+>>> - Running this will create the word id text file and tf-idf mm file.
+>>> - The program doesn’t create the meatdata.cpickle file in HPC so we will create the manually in         the next step.
+>> - Run get_wiki_index.sh which takes two inputs one path to the wiki dump and the other is the path      of directory where we want to save the outputs.
+>>> - sbatch get_wiki_index.sh ~/path_ to_downloaded_wiki_dump ~/path_to_the_directrory_save output  
+>> - After running the following gensim command we will get,
+>>> - wiki_en_wordids.txt.bz2 - Needs to be decompressed manually.
+>>> - articles_title.txt - Contains the article name and its index value
+>>> - wiki_en_tfidf.mm 
+>> - Creating the all the above files took around 4 hours 50 mins.
+> - Run lda_modeling_1pass.sh or lda_modeling_3pass.sh to create the LDA models and generate a csv       having documents as index and columns as topics. 
+>> - Both the script takes two inputs.
+>>> - sbatch lda_modeling_1pass.sh ~/path_to_tfidfs_directory ~/path_to_the_directrory_save output 
+>>> - sbatch lda_modeling_3pass.sh ~/path_to_tfidfs_directory ~/path_to_the_directrory_save output 
+>> - Running both the script will take around +4 hours and +11 hours respectively.
+>> - Both the scripts will save a trained lda model for future implementation in the directory.
+
 
 ### Directory Structure
 ```
@@ -43,48 +62,30 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 +-- src
 |   +-- extract_wiki_page_data.py
 |   +-- pic_clustering.py
-|   +-- slurm*.sh   
-|   +-- lda_modeling_1pass.py
-|   +-- lda_modeling_1pass.sh
-|   +-- lda_modeling_3pass.py
-|   +-- lda_modeling_3pass.sh
+    +-- slurm*.sh   
 +-- preprocessed
 |   +-- file_concat-graph.sh
 |   +-- all preprocessed files will be stored here
-|   +-- wiki_en_wordids.txt
-|   +-- wiki_en.tfidf_model
-|   +-- articles_title.txt
 +-- results
 |   +-- file_concat-results.sh
 |   +-- clusters_*\
 ```
 ### Instructions
-- Download the enwiki-articles XML file from the link above and store it in `data/` directory.
-- Download both sql files and store them in the `data/` directory.
-- run the extract_wiki_page_data.py script using sbatch command mentioned above.
+#### Preprocessing script instructions
+- Download the enwiki-articles XML file from the link above and store it in **`data/`** directory.
+- Download both sql files and store them in the **`data/`** directory.
+- Run the extract_wiki_page_data.py script using sbatch command mentioned above.
 - The above script will take ~**1-Day** to run based on the configuration of the job.
 - Make sure you are following same directory structure as our repo.
+- This script will generate multiple csv files. These files can be concatenated using **`python3 shell_caller.py preprocessed`**, the     concatenated file will be stored in preprocessed as **`adjacency_graph_data.csv`**.
 
-### LDA Modeling Instructions
-- Download the latest wikipedia article file from https://dumps.wikimedia.org/enwiki/.
-- Run gensim make_wiki on the downloaded file
-  - Python -m gensim.scripts.make_wiki ~/path_ to_downloaded_wiki_dump ~/path_to_the_directrory_to_save_output
-    - Running this will create the word id text file and tf-idf mm file.
-    - The program doesn’t create the meatdata.cpickle file in HPC so we will create the manually in the next step.
-  - Run get_wiki_index.sh which takes two inputs one path to the wiki dump and the other is the path of directory where we want to save the outputs.
-    - sbatch get_wiki_index.sh ~/path_ to_downloaded_wiki_dump ~/path_to_the_directrory_to_save_output  
-  - After running the following gensim command we will get,
-    - wiki_en_wordids.txt.bz2 - Needs to be decompressed manually.
-    - articles_title.txt - Contains the article name and its index value
-    - wiki_en_tfidf.mm
-  - Creating the all the above files took around 4 hours 50 mins.
-- Run lda_modeling_1pass.sh or lda_modeling_3pass.sh to create the LDA models and generate a csv having documents as index and columns as topics.
-  - Both the script takes two inputs.
-    - sbatch lda_modeling_1pass.sh ~/path_to_tfidf_directory ~/path_to_the_directrory_to_save_output
-    - sbatch lda_modeling_3pass.sh ~/path_to_tfidf_directory ~/path_to_the_directrory_to_save_output
-  - Running both the script will take around +4 hours and +11 hours respectively.
-  - Both the scripts will save a trained lda model for future implementation in the directory.
-- Total run time LDA modeling and saving the output into a CSV will take around **~1-Day**.
+#### PIC clustering instructions
+- Run this script through the postprocessing script to get the final csv that is ready to be trained using PIC clustering. Make sure a     file named **`adjacency_graph_final_data.csv`** is generated in the **`preprocessed/`** directory.
+- Now run the pic_clustering.py script to cluster the graph. This script will generate the clusters csv file and save them to the         directory **`clusters_(number of iterations)/`** directory in multiple csv files.
+- Now run the same **`python3 shell_caller.py results`** to concatenate all the csvs in different clusters directories. The final csvs     generated will follow this naming convention **`final_100-(num_iterations).csv`** ~**4.7 million lines**.
+- To check progress of the pic_clustering job you may use **`grep -n "model created" job_name.log`** -> prints for which num_iterations the   job finished. The time taken by this job is ~**less than 10 hrs**, based on the configuration used. 
+- You have the pic_clusters file ready.
+
 
 ### Evaluation (Graph Analysis)
 [Power Iteration Clustering](https://spark.apache.org/docs/latest/mllib-clustering.html#power-iteration-clustering-pic)
