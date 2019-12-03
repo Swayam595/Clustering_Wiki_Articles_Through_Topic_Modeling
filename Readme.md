@@ -22,25 +22,25 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 ## Directory Structure
 ```
 .
-+-- data
-|   +-- *.sql
-|   +-- *xml.bz
-+-- src
-|   +-- extract_wiki_page_data.py
-|   +-- pic_clustering.py
-|   +-- clustering_lda_output_data.py (configure path to LDA results folder here)
-|   +-- lda_modeling_*.py/sh (scripts that create LDA data)
-|   +-- slurm*.sh   
-+-- preprocessed
-|   +-- file_concat-graph.sh
++-- __data/__
+|   +-- __*.sql__
+|   +-- __*xml.bz__
++-- __src/__
+|   +-- __extract_wiki_page_data.py__
+|   +-- __pic_clustering.py__
+|   +-- __clustering_lda_output_data.py__ (configure path to LDA results folder here)
+|   +-- __lda_modeling_*.py/sh__ (scripts that create LDA data)
+|   +-- __slurm*.sh__
++-- __preprocessed/__
+|   +-- __file_concat-graph.sh__
 |   +-- all preprocessed graph files will be written here
-|   +-- wiki-data
+|   +-- __wiki-data/__
 |       +-- all preprocessed wikipedia text data will be written here
-+-- results
-|   +-- lda_results (create different folders for different LDA configuration results)
++-- __results/__
+|   +-- __file_concat-results.sh__
+|   +-- lda_results_*/ (create different folders for different LDA configuration results)
 |       +-- lda_model_results.csv (the document-topic file) will be created here
 |       +-- lda model data will be saved here
-|   +-- file_concat-results.sh
 |   +-- clusters_*\
 |   +-- pic_clustering_final_results
 |       +-- final power-iteration clustering results go here
@@ -59,9 +59,9 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 > - Run get_wiki_index.sh which takes two inputs one path to the wiki dump and the other is the path of directory where we want to save the outputs.
 > - ```sbatch get_wiki_index.sh ~/data/<downloaded_wiki_dump> ~/preprocessed/wiki-data/```
 > - After running the above, we will get:
-> -   wiki_en_wordids.txt.bz2 - Needs to be decompressed manually.
-> -   articles_title.txt - Contains the article name and its index value
-> -   wiki_en_tfidf.mm 
+>     - wiki_en_wordids.txt.bz2 - Needs to be decompressed manually.
+>     - articles_title.txt - Contains the article name and its index value
+>     - wiki_en_tfidf.mm 
 > - Creating the all the above files took around 4 hours 50 mins.
 
 **STEP-3 (LDA model and save the document-topic matrix)**
