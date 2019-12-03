@@ -22,26 +22,26 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 ## Directory Structure
 ```
 .
-+-- data
++-- data/
 |   +-- *.sql
 |   +-- *xml.bz
-+-- src
++-- src/
 |   +-- extract_wiki_page_data.py
 |   +-- pic_clustering.py
 |   +-- clustering_lda_output_data.py (configure path to LDA results folder here)
 |   +-- lda_modeling_*.py/sh (scripts that create LDA data)
-|   +-- slurm*.sh   
-+-- preprocessed
+|   +-- slurm*.sh
++-- preprocessed/
 |   +-- file_concat-graph.sh
 |   +-- all preprocessed graph files will be written here
-|   +-- wiki-data
+|   +-- wiki-data/
 |       +-- all preprocessed wikipedia text data will be written here
-+-- results
-|   +-- lda_results (create different folders for different LDA configuration results)
++-- results/
+|   +-- file_concat-results.sh
+|   +-- lda_results_*/ (create different folders for different LDA configuration results)
 |       +-- lda_model_results.csv (the document-topic file) will be created here
 |       +-- lda model data will be saved here
-|   +-- file_concat-results.sh
-|   +-- clusters_*\
+|   +-- clusters_*
 |   +-- pic_clustering_final_results
 |       +-- final power-iteration clustering results go here
 ```
@@ -51,7 +51,7 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 **STEP-1 (setup and preprocess of LDA)**
 > - Download the latest wikipedia article file from https://dumps.wikimedia.org/enwiki/.
 > - Run gensim make_wiki on the downloaded file
-> - ```python -m gensim.scripts.make_wiki ~/data/downloaded_wiki_dump ~/preprocessed/wiki-data/```
+> - ```python -m gensim.scripts.make_wiki ~/data/<downloaded_wiki_dump> ~/preprocessed/wiki-data/```
 > - Running this will create the word id text file and tf-idf mm file.
 > - The program doesn’t create the meatdata.cpickle file in HPC so we will create the manually in the next step.
 
@@ -59,9 +59,9 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 > - Run get_wiki_index.sh which takes two inputs one path to the wiki dump and the other is the path of directory where we want to save the outputs.
 > - ```sbatch get_wiki_index.sh ~/data/<downloaded_wiki_dump> ~/preprocessed/wiki-data/```
 > - After running the above, we will get:
-> -   wiki_en_wordids.txt.bz2 - Needs to be decompressed manually.
-> -   articles_title.txt - Contains the article name and its index value
-> -   wiki_en_tfidf.mm 
+>     - wiki_en_wordids.txt.bz2 - Needs to be decompressed manually.
+>     - articles_title.txt - Contains the article name and its index value
+>     - wiki_en_tfidf.mm 
 > - Creating the all the above files took around 4 hours 50 mins.
 
 **STEP-3 (LDA model and save the document-topic matrix)**
