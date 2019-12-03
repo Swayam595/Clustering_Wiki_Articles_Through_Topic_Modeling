@@ -1,5 +1,5 @@
 d=$(pwd)
-n=${d:37}
+n=${d: -2}
 echo "$n"
 
 cat part*.csv > combined_data.csv
