@@ -76,6 +76,10 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 > - You may clone our repo to get the directory structure, but make sure the files are placed in appropriate directories as mentioned.
 
 ### k-Means Clustering of LDA Topic Data
+- Configure the *data_folder* variable in the **`~/src/clustering_lda_output_data.py`** script to the LDA Model Data that you want to cluster (*lda_results_1_pass* by default).
+- Run the **`~/src/clustering_lda_output_data.py`** script on a Spark cluster.
+- Model data and clustering information saved in the same location (*data_folder*).
+
 
 ### Graph Generation and Preprocessing script instructions
 - Download the enwiki-articles XML file from the link above and store it in **`data/`** directory.
@@ -85,15 +89,15 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
   ``` 
   > **NOTE:** replace `-50` with the number of lines of   sql the subset should contain.
 - Download both sql files and store them in the **`data/`** directory.
-- Run the **`extract_wiki_page_data.py`** script (from the ~/src/ folder) using sbatch command mentioned below (or with preferred configuration parameters).
+- Run the **`~/src/extract_wiki_page_data.py`** script (from the ~/src/ folder) using sbatch command mentioned below (or with preferred configuration parameters).
 ```
 sbatch slurm-spark-submit.sh --conf "spark.driver.memory=100g" --conf "spark.driver.maxResultSize=100g" --conf "spark.network.timeout=10000001" --conf "spark.executor.heartbeatInterval=10000000" extract_wiki_page_data.py
 ```
 > Note: spark.executor.instances = 11(executors per node)*num_nodes - 1 (master)
 
 - The above script will take ~**1-Day** to run based on the configuration of the job.
-- This script may generate multiple csv files, based on the write method chosen (write from Pandas vs write from PySpark Dataframes). These files can be concatenated using **`python3 shell_caller.py preprocessed`**. The concatenated file will be stored in               **`preprocessed/`** directory as **`adjacency_graph_data.csv`**.
-- Run the **`postprocessing.py`** script to get the **`preprocessed/adjacency_graph_final_data.csv`**, which will be used in the steps that follow. This script ensures that the surviving nodes are those with available LDA data.
+- This script may generate multiple csv files, based on the write method chosen (write from Pandas vs write from PySpark Dataframes). These files can be concatenated using **`python3 shell_caller.py preprocessed`**. The concatenated file will be stored in               **`~/preprocessed/`** directory as **`adjacency_graph_data.csv`**.
+- Run the **`~/src/postprocessing.py`** script to get the **`preprocessed/adjacency_graph_final_data.csv`**, which will be used in the steps that follow. This script ensures that the surviving nodes are those with available LDA data.
 #### Speed up preprocessing step
 - You can download these 3 csv files to speed up the preprocessing step.
 - Download all the folders from this link and store them in `preprocessed/` folder.
@@ -115,13 +119,13 @@ Evaluation of cluster cohesion using **`silhouette score`**.[[ref]](https://en.w
 - Silhouette score range: -1 to 1 with 1 being the best score.
 
 #### Final Run Scores
-- Silhouette Score for k-Means with 100 Centers is 0.6783790554519792
+- Silhouette Score for k-Means with 100 Centers is __0.6783790554519792__
 
 ### Cluster Comparison (PIC Clusters from Wikipedia Link Graph Data v/s k-Means Clusters on LDA Topics of Wikipedia Article Data)
 - Done interactively in the **`~/src/clustering_evaluation.ipynb`** file.
 
 #### Results
-**Homogeneity Score:** 0.016603222803089825
-**V Measure Score:** 0.018949665276818004
-**Normalized Mutual Information Score:** 0.019141785196960935
-**Adjusted Mutual Information Score:** 0.015570843802447377
+**Homogeneity Score:** 0.016603222803089825 <br>
+**V Measure Score:** 0.018949665276818004 <br>
+**Normalized Mutual Information Score:** 0.019141785196960935 <br>
+**Adjusted Mutual Information Score:** 0.015570843802447377 <br>

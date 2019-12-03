@@ -35,6 +35,10 @@ elif strat == 'results':
     dirs = dirs[1]
     print("cwd after: "+os.getcwd()+"\n")
     cnt =0
+    
+    if not os.path.exists(os.path.join(results_folder, 'pic_clustering_final_results/')):
+        os.mkdir(os.path.join(results_folder, 'pic_clustering_final_results/'))
+        
     for x in dirs:
         if x.startswith("clusters_"):
             
