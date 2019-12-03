@@ -67,6 +67,7 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 > - Both the scripts will save a trained lda model for future implementation in the directory.
 
 > **IMPORTANT:** Make sure you are following same directory structure as our repo.
+> - You may clone our repo to get the directory structure, but make sure the files are placed in appropriate directories as mentioned.
 #### Preprocessing script instructions
 - Download the enwiki-articles XML file from the link above and store it in **`data/`** directory.
 - Command for subset of sql file to consider for graphs.
