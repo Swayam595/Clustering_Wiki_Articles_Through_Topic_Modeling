@@ -67,8 +67,8 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 **STEP-3 (LDA model and save the document-topic matrix)**
 > - Run lda_modeling_1pass.sh or lda_modeling_3pass.sh to create the LDA models and generate a csv having documents as index and columns as topics. 
 > - Both the script takes two inputs.
-> - ```sbatch lda_modeling_1pass.sh ~/preprocessed/wiki-data/ ~/results/```
-> - ```sbatch lda_modeling_3pass.sh ~/preprocessed/wiki-data/ ~/results/```
+>     - ```sbatch lda_modeling_1pass.sh ~/preprocessed/wiki-data/ ~/results/```
+>     - ```sbatch lda_modeling_3pass.sh ~/preprocessed/wiki-data/ ~/results/```
 > - Running both the script will take around +4 hours and +11 hours respectively.
 > - Both the scripts will save a trained lda model for future implementation in the directory.
 
