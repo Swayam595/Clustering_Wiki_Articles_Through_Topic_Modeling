@@ -39,8 +39,9 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 |   +-- file_concat-results.sh
 |   +-- clusters_*\
 ```
+### Instructions
 
-### Text Analysis
+#### Text Analysis
 **STEP-1 (setup and preprocess of LDA)**
 > - Download the latest wikipedia article file from https://dumps.wikimedia.org/enwiki/.
 > - Run gensim make_wiki on the downloaded file
@@ -58,15 +59,14 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 > - Creating the all the above files took around 4 hours 50 mins.
 
 **STEP-3 (LDA model and save the document-topic matrix)**
-> - Run lda_modeling_1pass.sh or lda_modeling_3pass.sh to create the LDA models and generate a csv       having documents as index and columns as topics. 
+> - Run lda_modeling_1pass.sh or lda_modeling_3pass.sh to create the LDA models and generate a csv having documents as index and             columns as topics. 
 > - Both the script takes two inputs.
 > - sbatch lda_modeling_1pass.sh ~/path_to_tfidfs_directory ~/path_to_the_directrory_save output 
 > - sbatch lda_modeling_3pass.sh ~/path_to_tfidfs_directory ~/path_to_the_directrory_save output 
 > - Running both the script will take around +4 hours and +11 hours respectively.
 > - Both the scripts will save a trained lda model for future implementation in the directory.
 
-### Instructions
-- Make sure you are following same directory structure as our repo.
+> **IMPORTANT:** Make sure you are following same directory structure as our repo.
 #### Preprocessing script instructions
 - Download the enwiki-articles XML file from the link above and store it in **`data/`** directory.
 - Command for subset of sql file to consider for graphs.
