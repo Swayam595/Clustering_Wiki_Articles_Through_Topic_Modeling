@@ -34,6 +34,30 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 
 ### Text Analysis
 
+### Directory Structure
+```
+.
++-- data
+|   +-- *.sql
+|   +-- *xml.bz
++-- src
+|   +-- extract_wiki_page_data.py
+|   +-- pic_clustering.py
+    +-- slurm*.sh   
++-- preprocessed
+|   +-- file_concat-graph.sh
+|   +-- all preprocessed files will be stored here
++-- results
+|   +-- file_concat-results.sh
+|   +-- clusters_*\
+```
+### Instructions
+- Download the enwiki-articles XML file from the link above and store it in `data/` directory.
+- Download both sql files and store them in the `data/` directory.
+- run the extract_wiki_page_data.py script using sbatch command mentioned above.
+- The above script will take ~**1-Day** to run based on the configuration of the job.
+- Make sure you are following same directory structure as our repo.
+
 ### Evaluation (Graph Analysis)
 [Power Iteration Clustering](https://spark.apache.org/docs/latest/mllib-clustering.html#power-iteration-clustering-pic)
 - PIC is a graph clustering algorithm which uses **Affinity matrix** as input and returns clusters based on their similarities.
