@@ -97,7 +97,7 @@ sbatch slurm-spark-submit.sh --conf "spark.driver.memory=100g" --conf "spark.dri
 - To check progress of the pic_clustering job you may use **`grep -n "model trained" job_name.log`** -> prints for which num_iterations   the job finished. The time taken by this job is ~**less than 10 hrs**, based on the configuration used. 
 - You have the pic_clusters file ready.
 
-#### Evaluation
+## Evaluation
 - Evaluation of cluster cohesion using **`silhouette score`**.[[ref]](https://en.wikipedia.org/wiki/Silhouette_(clustering))
 - Silhouette score on LDA clustering: **`0.61 (K = 50 clusters)`**
 - Silhouette score range: -1 to 1 with 1 being the best score.
