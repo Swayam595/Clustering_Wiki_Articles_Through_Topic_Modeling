@@ -19,7 +19,7 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pages-articles14.xml
 #### Link to "Wiki page-to-page link records":
 https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 
-### Directory Structure
+## Directory Structure
 ```
 .
 +-- data
@@ -39,7 +39,7 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 |   +-- file_concat-results.sh
 |   +-- clusters_*\
 ```
-### Instructions
+## Instructions
 
 #### Text Analysis
 **STEP-1 (setup and preprocess of LDA)**
