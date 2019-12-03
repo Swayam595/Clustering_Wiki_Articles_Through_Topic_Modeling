@@ -51,7 +51,7 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 **STEP-1 (setup and preprocess of LDA)**
 > - Download the latest wikipedia article file from https://dumps.wikimedia.org/enwiki/.
 > - Run gensim make_wiki on the downloaded file
-> - ```python -m gensim.scripts.make_wiki ~/data/downloaded_wiki_dump ~/preprocessed/wiki-data/```
+> - ```python -m gensim.scripts.make_wiki ~/data/<downloaded_wiki_dump> ~/preprocessed/wiki-data/```
 > - Running this will create the word id text file and tf-idf mm file.
 > - The program doesn’t create the meatdata.cpickle file in HPC so we will create the manually in the next step.
 
