@@ -43,10 +43,17 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 +-- src
 |   +-- extract_wiki_page_data.py
 |   +-- pic_clustering.py
-    +-- slurm*.sh   
+|   +-- slurm*.sh   
+|   +-- lda_modeling_1pass.py
+|   +-- lda_modeling_1pass.sh
+|   +-- lda_modeling_3pass.py
+|   +-- lda_modeling_3pass.sh
 +-- preprocessed
 |   +-- file_concat-graph.sh
 |   +-- all preprocessed files will be stored here
+|   +-- wiki_en_wordids.txt
+|   +-- wiki_en.tfidf_model
+|   +-- articles_title.txt
 +-- results
 |   +-- file_concat-results.sh
 |   +-- clusters_*\
