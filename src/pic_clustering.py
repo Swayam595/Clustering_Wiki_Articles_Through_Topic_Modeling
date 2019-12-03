@@ -19,10 +19,11 @@ base_folder = os.path.abspath("..")
 raw_folder = os.path.join(base_folder,"data/")
 dat_folder = os.path.join(base_folder,"src/")
 preprocessed_folder = os.path.join(base_folder,"preprocessed/")
+results_folder = os.path.join(base_folder,"results/")
 
 print("Starting to read the file...")
 # reading from the graph_sims file
-data = sc.textFile(raw_folder+'adjacency_graph_final_data.csv')
+data = sc.textFile(preprocessed_folder+'adjacency_graph_final_data.csv')
 header = data.first()
 
 print("File Read...\n")
@@ -35,7 +36,10 @@ def initialProcess(lines):
 #filtering out the header
 sims=data.filter(lambda x:  x!=header).map(initialProcess)
 
-num_iterations = [25,35,50,60]
+sims.cache()
+
+print("simRDD cached...\n")
+num_iterations = [15,20,25] #35,50 take too long 
 
 for num in num_iterations:
     
@@ -50,8 +54,8 @@ for num in num_iterations:
         clustRDD = clusters.map(lambda x: (x.id,x.cluster))
         clust_df = clustRDD.toDF()
 
-        clust_df.write.csv('clusters_'+str(num),header = 'true')
-        print("csv for {} iterations written".format(num))
+        clust_df.write.csv(results_folder + 'clusters_'+str(num),header = 'true')
+        print("csv for {:02d} iterations written".format(num))
     except Exception:
         log = open("exception.log","w+")
         traceback.print_exc(file=log)
