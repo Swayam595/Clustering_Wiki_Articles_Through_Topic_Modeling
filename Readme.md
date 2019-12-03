@@ -126,6 +126,7 @@ Evaluation of cluster cohesion using **`silhouette score`**.[[ref]](https://en.w
 ##### 3 LDA Passes
 - Silhouette Score for k-Means with 100 Centers is __0.6778574255021571__
 - Silhouette Score for k-Means with 50 Centers is __0.6807410707165481__
+- Silhouette Score for k-Means with 35 Centers is __0.680850892899637__
 
 ### Cluster Comparison (PIC Clusters from Wikipedia Link Graph Data v/s k-Means Clusters on LDA Topics of Wikipedia Article Data)
 - Done interactively in the **`~/src/clustering_evaluation.ipynb`** file.
