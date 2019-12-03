@@ -69,6 +69,9 @@ https://dumps.wikimedia.org/enwiki/20191101/enwiki-20191101-pagelinks.sql.gz
 - Download the latest wikipedia article file from https://dumps.wikimedia.org/enwiki/.
 - Run gensim make_wiki on the downloaded file
   - Python -m gensim.scripts.make_wiki ~/path_ to_downloaded_wiki_dump ~/path_to_the_directrory_save_output
+    - Running this will create the word id text file and tf-idf mm file.
+    - The program doesn’t create the meatdata.cpickle file in HPC so we will create the manually in the next step.
+  - Run get_wiki_index.sh which takes two inputs one path to the wiki dump and the other is the path of directory where we want to save the outputs.
 
 
 ### Evaluation (Graph Analysis)
