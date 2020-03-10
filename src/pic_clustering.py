@@ -39,13 +39,14 @@ sims=data.filter(lambda x:  x!=header).map(initialProcess)
 sims.cache()
 
 print("simRDD cached...\n")
-num_iterations = [15,20,25] #35,50 take too long 
+num_iterations = [35,50,60]
 
 for num in num_iterations:
     
     try:
         
         # PIC(RDD,num_clusters,num_iterations) defaults: num_iterations=100
+	# train(rdd,k,maxiterations)
         model = PowerIterationClustering.train(sims,100,num)
 
         print("model trained\t num_iterations:"+str(num)+"\n")
@@ -55,7 +56,7 @@ for num in num_iterations:
         clust_df = clustRDD.toDF()
 
         clust_df.write.csv(results_folder + 'clusters_'+str(num),header = 'true')
-        print("csv for {:02d} iterations written".format(num))
+        print("csv for {} iterations written".format(num))
     except Exception:
         log = open("exception.log","w+")
         traceback.print_exc(file=log)
